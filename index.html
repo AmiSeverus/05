@@ -10,8 +10,86 @@
 </head>
 <body>
 
+<div class="tables">
 
+</div>
 <script>
+
+const dataKeys = []
+const dataValues = []
+
+$.ajax({
+    url: "https://reqres.in/api/users/1",
+    async: false,
+    method: "get",
+    dataType: "json",
+    success: (response) => {responseKeys(response), responseValues(response)},
+    error: (error, exception) => {console.log(error.status, error.responseText, exception)}
+})
+
+function responseKeys (data) {
+    keys = Object.keys(data)
+    dataKeys.push(keys)
+}
+
+function responseValues (data) {
+    values = Object.values(data)
+    dataValues.push(values)
+}
+
+tableRender(dataKeys, dataValues)
+
+function tableRender (tableNames, tableValue) {
+    let i = 0;
+    let k = 0;
+    while (i < tableNames[0].length) {
+        const tableName = $("<h3>").text(`Имя таблицы - ${tableNames[0][i]}`).appendTo("div")
+        const table = $("<table>").addClass("table").css("border", "1px solid black").appendTo("div")
+        const tHeadersRow = $("<tr>").addClass("tHeadRow").css("border", "1px solid black").appendTo(table)
+        const tContentRow = $("<tr>").addClass("tHeadersRow").css("border", "1px solid black").appendTo(table)
+        //const tHeadersRowNames = $("<td>").addClass("tHeadersRowNames").appendTo(tHeadersRow)
+        const tableKeys = Object.keys(tableValue[0][i])
+        const tableContents = Object.values(tableValue[0][i])
+        while (k < tableKeys.length) {
+            const tHeadersRowNames = $("<th>").
+                addClass("tHeadersRowNames").
+                css("border", "1px solid black").
+                text(tableKeys[k])
+                .appendTo(tHeadersRow)
+            if (`"${tableContents[k]}"`.includes("https:")) {
+                const tContentRowData = $("<td>")
+                    .addClass("tContentRowData")
+                    .css("border", "1px solid black")
+                    .appendTo(tContentRow)
+                const Img = $("<img>")
+                    .attr("src", `${tableContents[k]}`)
+                    .appendTo(tContentRowData)
+            } else if (`"${tableContents[k]}"`.includes("http:")) {
+                const tContentRowData = $("<td>")
+                    .addClass("tContentRowData")
+                    .css("border", "1px solid black")
+                    .appendTo(tContentRow)
+                const link = $("<a>")
+                    .attr("href", `${tableContents[k]}`)
+                    .attr("target", "_blank")
+                    .text("Ссылка")
+                    .appendTo(tContentRowData)
+            } else {
+                const tContentRowData = $("<td>")
+                    .addClass("tContentRowData")
+                    .text(`${tableContents[k]}`)
+                    .css("border", "1px solid black")
+                    .appendTo(tContentRow)                
+            }
+            k++
+        }
+        k = 0
+        $("<br>").appendTo("div")
+        i++
+    }
+}
+
+//
 
 
 </script>
