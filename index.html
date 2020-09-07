@@ -47,7 +47,6 @@ function tableRender (tableNames, tableValue) {
         const table = $("<table>").addClass("table").css("border", "1px solid black").appendTo("div")
         const tHeadersRow = $("<tr>").addClass("tHeadRow").css("border", "1px solid black").appendTo(table)
         const tContentRow = $("<tr>").addClass("tHeadersRow").css("border", "1px solid black").appendTo(table)
-        //const tHeadersRowNames = $("<td>").addClass("tHeadersRowNames").appendTo(tHeadersRow)
         const tableKeys = Object.keys(tableValue[0][i])
         const tableContents = Object.values(tableValue[0][i])
         while (k < tableKeys.length) {
